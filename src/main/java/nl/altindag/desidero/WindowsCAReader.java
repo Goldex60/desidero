@@ -43,6 +43,8 @@ final class WindowsCAReader {
 
     private static final int CRYPT_E_NOT_FOUND = 0x80092004;
     private static final int ERROR_NO_MORE_FILES = 18;
+    private static final int ERROR_FILE_NOT_FOUND = 2;
+    private static final int ERROR_PATH_NOT_FOUND = 3;
 
     private WindowsCAReader() {
     }
@@ -78,10 +80,13 @@ final class WindowsCAReader {
         );
 
         if (store == null) {
-            throw nativeError(
-                    "CertOpenStore",
-                    locationName,
-                    Native.getLastError());
+            int error = Native.getLastError();
+
+            if (error == ERROR_FILE_NOT_FOUND || error == ERROR_PATH_NOT_FOUND) {
+                return new ArrayList<>();
+            }
+
+            throw nativeError("CertOpenStore", locationName, error);
         }
 
         List<X509Certificate> certificates = new ArrayList<>();

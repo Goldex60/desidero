@@ -27,6 +27,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 /**
  * @author Hakan Altindag
@@ -82,6 +83,15 @@ class WindowsCertificateUtilsShould {
                     .hasMessage("Failed to load Windows intermediate CA certificates")
                     .hasCauseInstanceOf(IllegalStateException.class);
         }
+    }
+
+    @Test
+    void readNativeWindowsCACertificateStores() {
+        assumeTrue(OperatingSystem.get() == OperatingSystem.WINDOWS);
+
+        List<X509Certificate> certificates = OperatingSystem.WINDOWS.getIntermediateCertificates();
+
+        assertThat(certificates).doesNotContainNull().doesNotHaveDuplicates();
     }
 
 }

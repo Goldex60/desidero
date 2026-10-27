@@ -89,9 +89,21 @@ class WindowsCertificateUtilsShould {
     void readNativeWindowsCACertificateStores() {
         assumeTrue(OperatingSystem.get() == OperatingSystem.WINDOWS);
 
-        List<X509Certificate> certificates = OperatingSystem.WINDOWS.getIntermediateCertificates();
+        String originalOsName = System.getProperty("os.name");
 
-        assertThat(certificates).doesNotContainNull().doesNotHaveDuplicates();
+        try {
+            // Restore the expected Windows capitalization before JNA initialization.
+            System.setProperty("os.name", "Windows" + originalOsName.substring(7));
+
+            List<X509Certificate> certificates =
+                    OperatingSystem.WINDOWS.getIntermediateCertificates();
+
+            assertThat(certificates)
+                    .doesNotContainNull()
+                    .doesNotHaveDuplicates();
+        } finally {
+            System.setProperty("os.name", originalOsName);
+        }
     }
 
 }

@@ -144,6 +144,7 @@ class OSCertificateUtilsShould {
 
     @Test
     void loadWindowsSystemKeyStore() {
+        System.setProperty("os.name", "windows");
         KeyStore windowsRootKeyStore = mock(KeyStore.class);
         KeyStore windowsMyKeyStore = mock(KeyStore.class);
         KeyStore windowsMyCurrentUserKeyStore = mock(KeyStore.class);

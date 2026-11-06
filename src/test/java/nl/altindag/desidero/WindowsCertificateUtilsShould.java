@@ -95,8 +95,7 @@ class WindowsCertificateUtilsShould {
             // Restore the expected Windows capitalization before JNA initialization.
             System.setProperty("os.name", "Windows" + originalOsName.substring(7));
 
-            List<X509Certificate> certificates =
-                    OperatingSystem.WINDOWS.getIntermediateCertificates();
+            List<X509Certificate> certificates = WindowsCertificateUtils.getInstance().getIntermediateCertificates();
 
             assertThat(certificates)
                     .doesNotContainNull()

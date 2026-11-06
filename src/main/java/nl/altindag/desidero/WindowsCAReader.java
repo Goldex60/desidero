@@ -24,6 +24,7 @@ import com.sun.jna.platform.win32.WinCrypt.CERT_CONTEXT.ByReference;
 import com.sun.jna.platform.win32.WinCrypt.CertStoreProviderName;
 import com.sun.jna.platform.win32.WinCrypt.HCERTSTORE;
 import nl.altindag.desidero.exception.GenericIOException;
+import nl.altindag.laleler.CollectorsUtils;
 import nl.altindag.sude.Logger;
 import nl.altindag.sude.LoggerFactory;
 
@@ -73,7 +74,8 @@ final class WindowsCAReader {
         List<X509Certificate> localMachineCertificates = readStore(WinCrypt.CERT_SYSTEM_STORE_LOCAL_MACHINE, "LOCAL_MACHINE");
         certificates.addAll(localMachineCertificates);
 
-        return new ArrayList<>(certificates);
+        return certificates.stream()
+                .collect(CollectorsUtils.toUnmodifiableList());
     }
 
     private static List<X509Certificate> readStore(int location, String locationName) throws GenericIOException {

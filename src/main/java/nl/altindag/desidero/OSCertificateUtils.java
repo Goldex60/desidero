@@ -33,7 +33,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * @author Hakan Altindag
+ * @author Goldex60
  */
 abstract class OSCertificateUtils {
 

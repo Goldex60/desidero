@@ -50,6 +50,7 @@ import java.util.Set;
  * automatically be treated as trust anchors.
  *
  * @author Goldex60
+ * @author Hakan Altindag
  */
 @SuppressWarnings({"SimplifyOptionalCallChains", "CollectionAddAllCanBeReplacedWithConstructor"})
 final class WindowsCAReader {

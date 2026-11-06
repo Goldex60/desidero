@@ -15,8 +15,8 @@
  */
 module nl.altindag.desidero {
 
-    requires nl.altindag.sude;
-    requires nl.altindag.laleler;
+    requires transitive nl.altindag.sude;
+    requires transitive nl.altindag.laleler;
 
     exports nl.altindag.desidero;
 

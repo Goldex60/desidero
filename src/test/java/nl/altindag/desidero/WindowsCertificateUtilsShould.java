@@ -49,29 +49,21 @@ class WindowsCertificateUtilsShould {
     @Test
     void getIntermediateCertificatesFromWindowsCAStore() throws Exception {
         X509Certificate intermediate = mock(X509Certificate.class);
-        List<X509Certificate> expectedCertificates =
-                Collections.singletonList(intermediate);
+        List<X509Certificate> expectedCertificates = Collections.singletonList(intermediate);
 
-        try (MockedStatic<WindowsCAReader> mockedReader =
-                     mockStatic(WindowsCAReader.class)) {
-
+        try (MockedStatic<WindowsCAReader> mockedReader = mockStatic(WindowsCAReader.class)) {
             mockedReader.when(WindowsCAReader::loadCertificates)
                     .thenReturn(expectedCertificates);
 
-            List<X509Certificate> certificates =
-                    WindowsCertificateUtils.getInstance()
-                            .getIntermediateCertificates();
-
+            List<X509Certificate> certificates = WindowsCertificateUtils.getInstance().getIntermediateCertificates();
             assertThat(certificates).containsExactly(intermediate);
-
             mockedReader.verify(WindowsCAReader::loadCertificates);
         }
     }
 
     @Test
     void getIntermediateCertificatesPropagatesReaderFailure() {
-        try (MockedStatic<WindowsCAReader> mockedReader =
-                     mockStatic(WindowsCAReader.class)) {
+        try (MockedStatic<WindowsCAReader> mockedReader = mockStatic(WindowsCAReader.class)) {
 
             mockedReader.when(WindowsCAReader::loadCertificates)
                     .thenThrow(new IllegalStateException("Native store error"));
@@ -94,9 +86,7 @@ class WindowsCertificateUtilsShould {
         try {
             // Restore the expected Windows capitalization before JNA initialization.
             System.setProperty("os.name", "Windows" + originalOsName.substring(7));
-
-            List<X509Certificate> certificates =
-                    OperatingSystem.WINDOWS.getIntermediateCertificates();
+            List<X509Certificate> certificates = WindowsCertificateUtils.getInstance().getIntermediateCertificates();
 
             assertThat(certificates)
                     .doesNotContainNull()

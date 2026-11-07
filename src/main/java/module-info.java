@@ -15,11 +15,10 @@
  */
 module nl.altindag.desidero {
 
-    requires nl.altindag.sude;
-    requires nl.altindag.laleler;
+    requires transitive nl.altindag.sude;
+    requires transitive nl.altindag.laleler;
     requires static com.sun.jna;
     requires static com.sun.jna.platform;
 
     exports nl.altindag.desidero;
-
 }
